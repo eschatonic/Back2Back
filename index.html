@@ -356,7 +356,7 @@ function imagedata_to_image(imagedata) {
 }
 
 function initialiseData(){
-	data.keys = [];
+	data.keys = {};
 	data.timer = 0;
 	data.bossCounter = 0;
 	data.waveInterval = 180;
@@ -1249,61 +1249,61 @@ function normAngle(angle){
 	/* INPUT */
 
 document.body.onkeydown = function(evt){
-	if (data.keys[evt.keyCode]) return false;
+	if (data.keys[evt.code]) return false;
 	if (typeof music === "undefined") return false;
-	if (evt.keyCode === 77){ //M
+	if (evt.code === "KeyM"){
 		data.sound = !data.sound;
 		setVolume(data.musicVolume/10);
 		return false;
 	}
 	if (data.scene === "start"){
-		if (evt.keyCode === 27){
+		if (evt.code === "Escape"){
 			updateScene("options");
 			return false;
 		}
 		updateScene("game");
 		setVolume(data.musicVolume/10);
 	} else if (data.scene === "end"){
-		if (evt.keyCode === 27){
+		if (evt.code === "Escape"){
 			updateScene("start");
 			initialiseData();
 		}
 	} else if (data.scene === "options") {
-		if (evt.keyCode === 27){
+		if (evt.code === "Escape"){
 			updateScene(data.previousScene);
-		} else if (evt.keyCode === 37){
+		} else if (evt.code === "ArrowLeft"){
 			if (data.optionsPage > 0) data.optionsPage--;
-		} else if (evt.keyCode === 39){
+		} else if (evt.code === "ArrowRight"){
 			if (data.optionsPage < 2) data.optionsPage++;
 		}
 	} else {
-		data.keys[evt.keyCode] = true;
+		data.keys[evt.code] = true;
 	}
 }
 document.body.onkeyup = function(evt){
-	data.keys[evt.keyCode] = false;
+	data.keys[evt.code] = false;
 }
 function handleInput(){
 	if (data.scene === "game"){
-		if (data.keys[27]){	//esc
+		if (data.keys["Escape"]){	//esc
 			updateScene("options");
 			return false;
 		}
 		data.players[0].dy = 0;
 		data.players[1].dy = 0;
-		if (data.keys[87] || (data.cheats.tether && data.keys[38])){ //w
+		if (data.keys["KeyW"] || (data.cheats.tether && data.keys["ArrowUp"])){ //w
 			data.players[0].dy = -1;
 			if (!data.players[0].ready) data.players[0].ready = true;
 		}
-		if (data.keys[83] || (data.cheats.tether && data.keys[40])){	//s
+		if (data.keys["KeyS"] || (data.cheats.tether && data.keys["ArrowDown"])){	//s
 			data.players[0].dy = 1;
 			if (!data.players[0].ready) data.players[0].ready = true;
 		}
-		if (data.keys[38] || (data.cheats.tether && data.keys[87])){ //up
+		if (data.keys["ArrowUp"] || (data.cheats.tether && data.keys["KeyW"])){ //up
 			data.players[1].dy = -1;
 			if (!data.players[1].ready) data.players[1].ready = true;
 		}
-		if (data.keys[40] || (data.cheats.tether && data.keys[83])){ //down
+		if (data.keys["ArrowDown"] || (data.cheats.tether && data.keys["KeyS"])){ //down
 			data.players[1].dy = 1;
 			if (!data.players[1].ready) data.players[1].ready = true;
 		}
